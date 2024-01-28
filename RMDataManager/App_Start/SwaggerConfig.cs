@@ -4,6 +4,7 @@ using RMDataManager;
 using Swashbuckle.Application;
 using RMDataManager.App_Start;
 
+// comment this out to remove swagger in production, can also add code to only allow swagger in debug mode
 [assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 
 namespace RMDataManager
@@ -20,6 +21,9 @@ namespace RMDataManager
                         // add a document filter of type AuthTokenOperation
                         // run the apply method in ATO
                         c.DocumentFilter<AuthTokenOperation>();
+
+                        // allows an extra parameter on every method that allows us to put the token in
+                        c.OperationFilter<AuthOperationFilter>();
                         // By default, the service root url is inferred from the request used to access the docs.
                         // However, there may be situations (e.g. proxy and load-balanced environments) where this does not
                         // resolve correctly. You can workaround this by providing your own code to determine the root URL.

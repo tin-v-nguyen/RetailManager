@@ -5,9 +5,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Http.Description;
 
+// https://stackoverflow.com/questions/51117655/how-to-use-swagger-in-asp-net-webapi-2-0-with-token-based-authentication
+
 namespace RMDataManager.App_Start
 {
-    public class AuthTokenOperation : Swashbuckle.Swagger.IDocumentFilter
+    public class AuthTokenOperation : IDocumentFilter
     {
         public void Apply(SwaggerDocument swaggerDoc, SchemaRegistry schemaRegistry, IApiExplorer apiExplorer)
         {
