@@ -26,6 +26,7 @@ namespace RMWindowsUI
 
             _container
                 // be careful about using singletons unless you know you should, aren't great on memory usage
+                // creates one instance for all requests, .PerRequest creates one instance for each request
                 .Singleton<IWindowManager, WindowManager>()
                 .Singleton<IEventAggregator, EventAggregator>();
 
