@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using RMWindowsUI.Helpers;
 using RMWindowsUI.ViewModels;
 using System;
 using System.CodeDom;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace RMWindowsUI
 {
@@ -18,6 +20,13 @@ namespace RMWindowsUI
         public Bootstrapper()
         {
             Initialize();
+
+            // this Helper function is from stack overflow https://stackoverflow.com/questions/30631522/caliburn-micro-support-for-passwordbox
+            // implements a binding convention so that PasswordBox binding in Caliburn.Micro works
+            ConventionManager.AddElementConvention<PasswordBox>(
+                PasswordBoxHelper.BoundPasswordProperty,
+                "Password",
+                "PasswordChanged");
         }
 
         protected override void Configure()
