@@ -25,22 +25,34 @@
                    HorizontalAlignment="Center" FontSize="64" FontFamily="Segoe UI Light">
             Login Form
         </TextBlock>
+         
+        <!-- Error Message Row -->
+        <!-- Added BTVC resource to App.xaml, controls textblock visibility thru boolean-->
+        <TextBlock x:Name="ErrorMessage" 
+                   
+                   Visibility="{Binding IsErrorVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"
+                   Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
+                   Foreground="Red" MaxWidth="300"
+                   TextWrapping="Wrap" Margin="0 0 0 20"
+                   />
+
+
         <!-- Username Row -->
-        <TextBlock Grid.Row="1" Grid.Column="1" Margin="0 0 0 10">
+        <TextBlock Grid.Row="2" Grid.Column="1" Margin="0 0 5 10">
             Username:
         </TextBlock>
-        <TextBox x:Name="UserName" Grid.Row="1" Grid.Column="2" 
-                 MinWidth="150" Margin="0 0 0 10"/>
+        <TextBox x:Name="UserName" Grid.Row="2" Grid.Column="2" 
+                 MinWidth="350" Margin="0 0 0 10"/>
 
         <!-- Password Row -->
-        <TextBlock Grid.Row="2" Grid.Column="1" Margin="0 0 0 20">
+        <TextBlock Grid.Row="3" Grid.Column="1" Margin="0 0 5 20">
             Password:
         </TextBlock>
-        <PasswordBox x:Name="Password" Grid.Row="2" Grid.Column="2" 
-         MinWidth="150" Margin="0 0 0 20"/>
+        <PasswordBox x:Name="Password" Grid.Row="3" Grid.Column="2" 
+         MinWidth="350" Margin="0 0 0 20"/>
         
         <!-- Login Row -->
-        <Button Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Padding="20 5"
+        <Button Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Padding="20 5"
                 HorizontalAlignment="Center" x:Name="LogIn">
             Login
         </Button>
