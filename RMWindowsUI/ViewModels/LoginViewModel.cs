@@ -1,7 +1,9 @@
 ﻿using Caliburn.Micro;
+using RMWindowsUI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -13,6 +15,13 @@ namespace RMWindowsUI.ViewModels
         // private backing fields, naming convention for storing value of properties
         private string _userName;
         private string _password;
+        private IAPIHelper _apiHelper;
+
+        // on startup this requests and IAPIHelper, filled by Singleton IAPIHelper, save in private var
+        public LoginViewModel(IAPIHelper apiHelper)
+        {
+            _apiHelper = apiHelper;
+        }
 
         public string UserName
         {
@@ -55,9 +64,17 @@ namespace RMWindowsUI.ViewModels
         }
 
         // Caliburn.Micro convention, LogIn is connected to the LogIn button in LoginView.xaml
-        public void LogIn()
+        public async Task LogIn()
         {
-            Console.WriteLine();
+            try
+            {
+                var result = await _apiHelper.Authenticate(UserName, Password);
+            } catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            
+
         }
 
 

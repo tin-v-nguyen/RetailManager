@@ -23,6 +23,9 @@ namespace RMWindowsUI
 
             // this Helper function is from stack overflow https://stackoverflow.com/questions/30631522/caliburn-micro-support-for-passwordbox
             // implements a binding convention so that PasswordBox binding in Caliburn.Micro works
+            // Caliburn.Micro doesn't support PasswordBox so it is never stored in clear text
+            // we are bypassing that, it does reduce security slightly, password is stored in RAM temporarily, potential for reading password,
+            // If someone has access to your ram though, they will have access to your keystrokes, it reduces security in an insignificant way
             ConventionManager.AddElementConvention<PasswordBox>(
                 PasswordBoxHelper.BoundPasswordProperty,
                 "Password",
@@ -37,7 +40,9 @@ namespace RMWindowsUI
                 // be careful about using singletons unless you know you should, aren't great on memory usage
                 // creates one instance for all requests, .PerRequest creates one instance for each request
                 .Singleton<IWindowManager, WindowManager>()
-                .Singleton<IEventAggregator, EventAggregator>();
+                .Singleton<IEventAggregator, EventAggregator>()
+                .Singleton<IAPIHelper, APIHelper>();
+            
 
             // handle view models that connect to views
             // reflection, relfection is slow, usually dont use it
