@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using RMWindowsUI.Library.Api;
 
 namespace RMWindowsUI.ViewModels
 {
@@ -96,6 +97,9 @@ namespace RMWindowsUI.ViewModels
             {
                 ErrorMessage = "";
                 var result = await _apiHelper.Authenticate(UserName, Password);
+
+                // capture info about the user, store in model
+                await _apiHelper.GetLoggedInUserInfo(result.Access_Token);
             } catch (Exception ex)
             {
                 ErrorMessage = ex.Message;

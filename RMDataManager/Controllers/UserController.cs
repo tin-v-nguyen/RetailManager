@@ -13,12 +13,12 @@ namespace RMDataManager.Controllers
     //[RoutePrefix("api/User")]
     public class UserController : ApiController
     {
-        // 
-        public List<UserModel> GetById()
+        [HttpGet]
+        public UserModel GetById()
         {
             string userId = RequestContext.Principal.Identity.GetUserId();
             UserData data = new UserData();
-            return data.GetUserByID(userId);
+            return data.GetUserByID(userId).First();
         }
 
     }

@@ -1,5 +1,7 @@
 ﻿using Caliburn.Micro;
 using RMWindowsUI.Helpers;
+using RMWindowsUI.Library.Api;
+using RMWindowsUI.Library.Models;
 using RMWindowsUI.ViewModels;
 using System;
 using System.CodeDom;
@@ -41,6 +43,7 @@ namespace RMWindowsUI
                 // creates one instance for all requests, .PerRequest creates one instance for each request
                 .Singleton<IWindowManager, WindowManager>()
                 .Singleton<IEventAggregator, EventAggregator>()
+                .Singleton<ILoggedInUserModel, LoggedInUserModel>()
                 .Singleton<IAPIHelper, APIHelper>();
             
 
