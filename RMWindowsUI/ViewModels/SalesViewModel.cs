@@ -35,14 +35,14 @@ namespace RMWindowsUI.ViewModels
         }
 
         private int _itemQuantity;
-
+        // using int means that quantity has to be typed as a number in the textbox
 		public int ItemQuantity
 		{
 			get { return _itemQuantity; }
 			set 
 			{ 
 				_itemQuantity = value;
-                NotifyOfPropertyChange(() => Products);
+                NotifyOfPropertyChange(() => ItemQuantity);
             }
 		}
 
