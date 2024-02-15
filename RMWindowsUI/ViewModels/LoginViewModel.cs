@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using RMWindowsUI.Library.Api;
+using RMWindowsUI.EventModels;
 
 namespace RMWindowsUI.ViewModels
 {
@@ -17,11 +18,13 @@ namespace RMWindowsUI.ViewModels
         private string _userName;
         private string _password;
         private IAPIHelper _apiHelper;
+        private IEventAggregator _events;
 
         // on startup this requests and IAPIHelper, filled by Singleton IAPIHelper, save in private var
-        public LoginViewModel(IAPIHelper apiHelper)
+        public LoginViewModel(IAPIHelper apiHelper, IEventAggregator events)
         {
             _apiHelper = apiHelper;
+            _events = events;
         }
 
         public string UserName
@@ -100,6 +103,9 @@ namespace RMWindowsUI.ViewModels
 
                 // capture info about the user, store in model
                 await _apiHelper.GetLoggedInUserInfo(result.Access_Token);
+
+                await _events.PublishOnUIThreadAsync(new LogOnEventModel());
+
             } catch (Exception ex)
             {
                 ErrorMessage = ex.Message;

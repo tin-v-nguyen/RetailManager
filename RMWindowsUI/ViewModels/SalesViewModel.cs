@@ -106,7 +106,7 @@ namespace RMWindowsUI.ViewModels
 
         }
 
-        public bool CanCheckout
+        public bool CanCheckOut
         {
             get
             {
