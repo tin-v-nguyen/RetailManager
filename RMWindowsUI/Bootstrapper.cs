@@ -36,7 +36,8 @@ namespace RMWindowsUI
 
         protected override void Configure()
         {
-            _container.Instance(_container);
+            _container.Instance(_container)
+                .PerRequest<IProductEndpoint, ProductEndpoint>();
 
             _container
                 // be careful about using singletons unless you know you should, aren't great on memory usage

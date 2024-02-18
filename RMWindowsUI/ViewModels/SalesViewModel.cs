@@ -1,4 +1,6 @@
 ﻿using Caliburn.Micro;
+using RMWindowsUI.Library.Api;
+using RMWindowsUI.Library.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,9 +12,28 @@ namespace RMWindowsUI.ViewModels
 {
     public class SalesViewModel : Screen
     {
-		private BindingList<string> _products;
+        IProductEndpoint _productEndpoint;
+        public SalesViewModel(IProductEndpoint productEndpoint)
+        {
+            _productEndpoint = productEndpoint;                   
+        }
 
-		public BindingList<string> Products
+        protected override async void OnViewLoaded(object view)
+        {
+            base.OnViewLoaded(view);
+            await LoadProducts();
+        }
+
+        // need to add a loading indicator on frontend
+        private async Task LoadProducts()
+        {
+            var productList = await _productEndpoint.GetAll();
+            Products = new BindingList<ProductModel>(productList);
+        }
+
+		private BindingList<ProductModel> _products;
+
+		public BindingList<ProductModel> Products
 		{
 			get { return _products; }
 			set 
@@ -22,9 +43,9 @@ namespace RMWindowsUI.ViewModels
             }
 		}
 
-        private BindingList<string> _cart;
+        private BindingList<ProductModel> _cart;
 
-        public BindingList<string> Cart
+        public BindingList<ProductModel> Cart
         {
             get { return _cart; }
             set
