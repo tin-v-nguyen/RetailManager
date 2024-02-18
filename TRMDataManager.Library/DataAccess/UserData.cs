@@ -17,7 +17,7 @@ namespace TRMDataManager.Library.DataAccess
             // anonymous object, no named typed
             var p = new { Id = Id };
 
-            // defualtconnection is defined in webconfig of api
+            // RMDatabase is defined in webconfig of api
             // dynamic type might not work across assemblies
             var output = sql.LoadData<UserModel, dynamic>("dbo.spUserLookup", p, "RMDatabase");
             return output;
