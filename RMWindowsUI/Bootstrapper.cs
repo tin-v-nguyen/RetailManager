@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using RMWindowsUI.Helpers;
 using RMWindowsUI.Library.Api;
+using RMWindowsUI.Library.Helpers;
 using RMWindowsUI.Library.Models;
 using RMWindowsUI.ViewModels;
 using System;
@@ -45,6 +46,7 @@ namespace RMWindowsUI
                 .Singleton<IWindowManager, WindowManager>()
                 .Singleton<IEventAggregator, EventAggregator>()
                 .Singleton<ILoggedInUserModel, LoggedInUserModel>()
+                .Singleton<IConfigHelper, ConfigHelper>()
                 .Singleton<IAPIHelper, APIHelper>();
             
 
