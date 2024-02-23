@@ -14,9 +14,9 @@ namespace RMWindowsUI.ViewModels
 {
     public class LoginViewModel : Screen
     {
-        // private backing fields, naming convention for storing value of properties
-        private string _userName;
-        private string _password;
+        // hard coded login info for testing
+        private string _userName = "tinnguyen2002@gmail.com";
+        private string _password = "Pwd12345!";
         private IAPIHelper _apiHelper;
         private IEventAggregator _events;
 

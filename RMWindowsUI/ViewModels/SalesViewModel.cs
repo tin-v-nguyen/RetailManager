@@ -14,10 +14,13 @@ namespace RMWindowsUI.ViewModels
     public class SalesViewModel : Screen
     {
         IProductEndpoint _productEndpoint;
+        ISaleEndpoint _saleEndpoint;
         IConfigHelper _configHelper;
-        public SalesViewModel(IProductEndpoint productEndpoint, IConfigHelper configHelper)
+
+        public SalesViewModel(IProductEndpoint productEndpoint, IConfigHelper configHelper, ISaleEndpoint saleEndpoint)
         {
-            _productEndpoint = productEndpoint;     
+            _productEndpoint = productEndpoint;
+            _saleEndpoint = saleEndpoint;
             _configHelper = configHelper;
         }
 
@@ -58,7 +61,6 @@ namespace RMWindowsUI.ViewModels
                 NotifyOfPropertyChange(() => CanAddToCart);
             }
         }
-
 
         private BindingList<CartItemModel> _cart = new BindingList<CartItemModel>();
 
@@ -191,6 +193,7 @@ namespace RMWindowsUI.ViewModels
             NotifyOfPropertyChange(() => SubTotal);
             NotifyOfPropertyChange(() => Tax);
             NotifyOfPropertyChange(() => Total);
+            NotifyOfPropertyChange(() => CanCheckOut);
         }
 
         public bool CanRemoveFromCart
@@ -198,10 +201,8 @@ namespace RMWindowsUI.ViewModels
             get
             {
                 bool output = false;
-
                 // make sure an item is selected
                 
-
 
                 return output;
             }
@@ -212,6 +213,7 @@ namespace RMWindowsUI.ViewModels
             NotifyOfPropertyChange(() => SubTotal);
             NotifyOfPropertyChange(() => Tax);
             NotifyOfPropertyChange(() => Total);
+            NotifyOfPropertyChange(() => CanCheckOut);
         }
 
         public bool CanCheckOut
@@ -221,16 +223,29 @@ namespace RMWindowsUI.ViewModels
                 bool output = false;
 
                 // make sure sometime is in cart
-
-
+                if (Cart.Count > 0)
+                {
+                    output = true;
+                }
 
                 return output;
             }
 
         }
-        public void CheckOut()
+        public async Task CheckOut()
         {
+            // create a sale model and post to the api
+            SaleModel sale = new SaleModel();
+            foreach (var item in Cart)
+            {
+                sale.SaleDetails.Add(new SaleDetailModel
+                {
+                    ProductId = item.Product.Id,
+                    Quantity = item.QuantityInCart
+                });
+            }
 
+            await _saleEndpoint.PostSale(sale);
         }
 
 
