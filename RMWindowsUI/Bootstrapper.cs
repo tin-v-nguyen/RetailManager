@@ -1,8 +1,10 @@
-﻿using Caliburn.Micro;
+﻿using AutoMapper;
+using Caliburn.Micro;
 using RMWindowsUI.Helpers;
 using RMWindowsUI.Library.Api;
 using RMWindowsUI.Library.Helpers;
 using RMWindowsUI.Library.Models;
+using RMWindowsUI.Models;
 using RMWindowsUI.ViewModels;
 using System;
 using System.CodeDom;
@@ -12,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Xml;
 
 namespace RMWindowsUI
 {
@@ -35,8 +38,25 @@ namespace RMWindowsUI
                 "PasswordChanged");
         }
 
+        private IMapper ConfigureAutoMapper()
+        {
+            // does reflection once to know how to map models
+            var AMConfig = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<ProductModel, ProductDisplayModel>();
+                cfg.CreateMap<CartItemModel, CartItemDisplayModel>();
+            });
+
+            var output = AMConfig.CreateMapper();
+            return output;
+        }
+
         protected override void Configure()
         {
+            // create singleton for mapper
+            _container.Instance<IMapper>(ConfigureAutoMapper());
+
+            // create singleton for _container
             _container.Instance(_container)
                 .PerRequest<IProductEndpoint, ProductEndpoint>()
                 .PerRequest<ISaleEndpoint, SaleEndpoint>();
