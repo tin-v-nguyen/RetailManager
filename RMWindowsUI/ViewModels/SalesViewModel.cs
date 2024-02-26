@@ -1,7 +1,9 @@
-﻿using Caliburn.Micro;
+﻿using AutoMapper;
+using Caliburn.Micro;
 using RMWindowsUI.Library.Api;
 using RMWindowsUI.Library.Helpers;
 using RMWindowsUI.Library.Models;
+using RMWindowsUI.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,12 +18,15 @@ namespace RMWindowsUI.ViewModels
         IProductEndpoint _productEndpoint;
         ISaleEndpoint _saleEndpoint;
         IConfigHelper _configHelper;
+        IMapper _mapper;
 
-        public SalesViewModel(IProductEndpoint productEndpoint, IConfigHelper configHelper, ISaleEndpoint saleEndpoint)
+        public SalesViewModel(IProductEndpoint productEndpoint, IConfigHelper configHelper, 
+            ISaleEndpoint saleEndpoint, IMapper mapper)
         {
             _productEndpoint = productEndpoint;
             _saleEndpoint = saleEndpoint;
             _configHelper = configHelper;
+            _mapper = mapper;
         }
 
         protected override async void OnViewLoaded(object view)
@@ -34,12 +39,15 @@ namespace RMWindowsUI.ViewModels
         private async Task LoadProducts()
         {
             var productList = await _productEndpoint.GetAll();
-            Products = new BindingList<ProductModel>(productList);
+            // could use LINQ to convert ProductModels to ProductDisplayModels, but Automapper is faster
+            // convert ProductModels to ProductDisplayModels
+            var products = _mapper.Map<List<ProductDisplayModel>>(productList);
+            Products = new BindingList<ProductDisplayModel>(products);
         }
 
-		private BindingList<ProductModel> _products;
+		private BindingList<ProductDisplayModel> _products;
 
-		public BindingList<ProductModel> Products
+		public BindingList<ProductDisplayModel> Products
 		{
 			get { return _products; }
 			set 
@@ -49,9 +57,10 @@ namespace RMWindowsUI.ViewModels
             }
 		}
 
-        private ProductModel _selectedProduct;
+        private ProductDisplayModel _selectedProduct;
 
-        public ProductModel SelectedProduct
+        // Caliburn.Micro naming convention for selected item in a list
+        public ProductDisplayModel SelectedProduct
         {
             get { return _selectedProduct; }
             set 
@@ -62,9 +71,9 @@ namespace RMWindowsUI.ViewModels
             }
         }
 
-        private BindingList<CartItemModel> _cart = new BindingList<CartItemModel>();
+        private BindingList<CartItemDisplayModel> _cart = new BindingList<CartItemDisplayModel>();
 
-        public BindingList<CartItemModel> Cart
+        public BindingList<CartItemDisplayModel> Cart
         {
             get { return _cart; }
             set
@@ -171,16 +180,13 @@ namespace RMWindowsUI.ViewModels
         public void AddToCart()
 		{
             // compare to find exact same object lambda expression
-            CartItemModel existingItem = Cart.FirstOrDefault(x => x.Product == SelectedProduct);
+            CartItemDisplayModel existingItem = Cart.FirstOrDefault(x => x.Product == SelectedProduct);
             if (existingItem != null)
             {
-                existingItem.QuantityInCart += ItemQuantity;
-                // HACK should be a better way of refreshing cart
-                Cart.Remove(existingItem);
-                Cart.Add(existingItem);
+                existingItem.QuantityInCart += ItemQuantity;               
             } else
             {
-                CartItemModel item = new CartItemModel
+                CartItemDisplayModel item = new CartItemDisplayModel
                 {
                     Product = SelectedProduct,
                     QuantityInCart = ItemQuantity,
