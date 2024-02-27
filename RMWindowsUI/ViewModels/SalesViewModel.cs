@@ -231,8 +231,6 @@ namespace RMWindowsUI.ViewModels
         }
         public void RemoveFromCart()
         {
-
-
             SelectedCartItem.Product.QuantityInStock++;
 
             if (SelectedCartItem.QuantityInCart > 1)
@@ -247,6 +245,7 @@ namespace RMWindowsUI.ViewModels
             NotifyOfPropertyChange(() => Tax);
             NotifyOfPropertyChange(() => Total);
             NotifyOfPropertyChange(() => CanCheckOut);
+            NotifyOfPropertyChange(() => CanAddToCart);
         }
 
         public bool CanCheckOut
@@ -265,6 +264,18 @@ namespace RMWindowsUI.ViewModels
             }
 
         }
+        private async Task ResetSalesViewModel()
+        {
+            Cart = new BindingList<CartItemDisplayModel>();
+            // TODO - Add clearing selectedcartitem if doesnt do it itself
+
+            await LoadProducts();
+
+            NotifyOfPropertyChange(() => SubTotal);
+            NotifyOfPropertyChange(() => Tax);
+            NotifyOfPropertyChange(() => Total);
+            NotifyOfPropertyChange(() => CanCheckOut);
+        }
         public async Task CheckOut()
         {
             // create a sale model and post to the api
@@ -279,6 +290,8 @@ namespace RMWindowsUI.ViewModels
             }
 
             await _saleEndpoint.PostSale(sale);
+
+            await ResetSalesViewModel();
         }
 
 

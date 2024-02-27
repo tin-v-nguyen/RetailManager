@@ -11,10 +11,11 @@
         <Menu DockPanel.Dock="Top" FontSize="18">
             <!--The _ in _File allows us to open file menu with alt F-->
             <MenuItem Header="_File">
-                
+                <MenuItem x:Name="ExitApp" Header="E_xit"/>
             </MenuItem>
-            <MenuItem Header="_Account">
-                <MenuItem x:Name="LoginScreen" Header="_Login"/>
+            <MenuItem Header="_Account" 
+                      Visibility="{Binding IsLoggedIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
+                <MenuItem x:Name="LogOut" Header="_Log Out"/>
             </MenuItem>
             
         </Menu>
