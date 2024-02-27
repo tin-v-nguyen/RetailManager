@@ -59,7 +59,7 @@ namespace RMWindowsUI.ViewModels
 
         private ProductDisplayModel _selectedProduct;
 
-        // Caliburn.Micro naming convention for selected item in a list
+        
         public ProductDisplayModel SelectedProduct
         {
             get { return _selectedProduct; }
@@ -202,13 +202,28 @@ namespace RMWindowsUI.ViewModels
             NotifyOfPropertyChange(() => CanCheckOut);
         }
 
+        private CartItemDisplayModel _selectedCartItem;
+        public CartItemDisplayModel SelectedCartItem
+        {
+            get { return _selectedCartItem; }
+            set
+            {
+                _selectedCartItem = value;
+                NotifyOfPropertyChange(() => SelectedCartItem);
+                NotifyOfPropertyChange(() => CanRemoveFromCart);
+            }
+        }
+
         public bool CanRemoveFromCart
         {
             get
             {
                 bool output = false;
                 // make sure an item is selected
-                
+                if (SelectedCartItem?.QuantityInCart > 0)
+                {
+                    output = true;
+                }
 
                 return output;
             }
@@ -216,6 +231,18 @@ namespace RMWindowsUI.ViewModels
         }
         public void RemoveFromCart()
         {
+
+
+            SelectedCartItem.Product.QuantityInStock++;
+
+            if (SelectedCartItem.QuantityInCart > 1)
+            {
+                SelectedCartItem.QuantityInCart--;
+            } else
+            {                
+                Cart.Remove(SelectedCartItem);
+            }
+
             NotifyOfPropertyChange(() => SubTotal);
             NotifyOfPropertyChange(() => Tax);
             NotifyOfPropertyChange(() => Total);

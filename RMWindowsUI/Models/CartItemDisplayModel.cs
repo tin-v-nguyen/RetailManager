@@ -20,7 +20,9 @@ namespace RMWindowsUI.Models
             set 
             { 
                 _quantityInCart = value;
-                CallPropertyChanged(nameof(QuantityInCart));
+                
+                // This isnt needed?
+                // CallPropertyChanged(nameof(QuantityInCart));
                 CallPropertyChanged(nameof(DisplayText));
             }
         }
