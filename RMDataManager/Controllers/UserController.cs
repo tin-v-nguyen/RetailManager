@@ -10,7 +10,6 @@ using TRMDataManager.Library.Models;
 namespace RMDataManager.Controllers
 {
     [Authorize]
-    //[RoutePrefix("api/User")]
     public class UserController : ApiController
     {
         [HttpGet]
