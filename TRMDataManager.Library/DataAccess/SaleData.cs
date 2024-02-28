@@ -53,26 +53,37 @@ namespace TRMDataManager.Library.DataAccess
             };
 
             sale.Total = sale.SubTotal + sale.Tax;
-
-            // save the sale model
-            SqlDataAccess sql = new SqlDataAccess();
-            sql.SaveData("dbo.spSale_Insert", sale, "RMDatabase");
-
-            // get id from sale model
-            sale.Id = sql.LoadData<int, dynamic>
-                ("spSale_Lookup", new { CashierId = sale.CashierId, SaleDate = sale.SaleDate }, "RMDatabase").FirstOrDefault();
-
-            // assign saleId to each sale detail
-            foreach (var item in details)
-            {
-                item.SaleId = sale.Id;
-
-                // save the sale detail model
-                // TODO: change this to save a whole table at once, advanced DAPPER, doing what its currently doing may be more efficient?
-                sql.SaveData("dbo.spSaleDetail_Insert", item, "RMDatabase");
-            }
-
             
+            // save the sale model
+            using (SqlDataAccess sql = new SqlDataAccess())
+            {
+                try
+                {
+                    sql.StartTransaction("RMDatabase");
+                    sql.SaveDataInTransaction("dbo.spSale_Insert", sale);
+
+                    // get id from sale model
+                    sale.Id = sql.LoadDataInTransaction<int, dynamic>
+                        ("spSale_Lookup", new { CashierId = sale.CashierId, SaleDate = sale.SaleDate }).FirstOrDefault();
+
+                    // assign saleId to each sale detail
+                    foreach (var item in details)
+                    {
+                        item.SaleId = sale.Id;
+
+                        // save the sale detail model
+                        // TODO: change this to save a whole table at once, advanced DAPPER, doing what its currently doing may be more efficient?
+                        sql.SaveDataInTransaction("dbo.spSaleDetail_Insert", item);
+                    }
+
+                    sql.CommitTransaction();
+                }
+                catch
+                {
+                    sql.RollbackTransaction();
+                    throw;
+                }                
+            }                                                     
         }
     }
 }
