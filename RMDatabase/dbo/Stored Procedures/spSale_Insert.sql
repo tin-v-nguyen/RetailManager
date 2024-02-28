@@ -12,7 +12,7 @@ BEGIN
 	INSERT INTO dbo.Sale(CashierId, SaleDate, SubTotal, Tax, Total)
 	VALUES (@CashierId, @SaleDate, @SubTotal, @Tax, @Total);
 
-	-- @@Identity grabs last identity created last in this transaction
-	-- ,the insert, passes it back in @Id
-	SELECT @Id = @@Identity
+	-- Scope_Identity grabs identity of given scope, in this case the stored procedure
+	-- @@Identity gets last created identity value
+	SELECT @Id = Scope_Identity()
 END
