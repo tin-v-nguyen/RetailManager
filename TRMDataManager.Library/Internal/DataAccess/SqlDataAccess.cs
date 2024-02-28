@@ -45,7 +45,7 @@ namespace TRMDataManager.Library.Internal.DataAccess
         // but we would need to use TVPs for certain transactions, want to limit TVP usage to large scale inserts for efficiency
         private IDbConnection _connection;
         private IDbTransaction _transaction;
-
+        private bool isClosed = false;
         // open connection/start transaction method
         public void StartTransaction(string connectionStringName)
         {
@@ -53,6 +53,8 @@ namespace TRMDataManager.Library.Internal.DataAccess
             _connection = new SqlConnection(connectionString);
             _connection.Open();
             _transaction = _connection.BeginTransaction();
+
+            isClosed = false;
         }
 
         public void SaveDataInTransaction<T>(string storedProcedure, T parameters)
@@ -74,17 +76,32 @@ namespace TRMDataManager.Library.Internal.DataAccess
         {
             _transaction?.Commit();
             _connection?.Close();
+            isClosed = true;
         }
 
         public void RollbackTransaction()
         {
             _transaction?.Rollback();
             _connection?.Close();
+            isClosed = true;
         }
 
         public void Dispose()
         {
-            CommitTransaction();
+            if (isClosed == false)
+            {
+                try
+                {
+                    CommitTransaction();
+                }
+                catch
+                {
+                    // TODO - Log this issue
+                }
+            }
+
+            _transaction = null;
+            _connection = null;
         }
         // load using transaction
         // save using transaction
