@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RMWindowsUI.Library.Api;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,7 @@ namespace RMWindowsUI.Library.Models
         public string EmailAddress { get; set; }
         public DateTime CreatedDate { get; set; }
 
-        public void LogOffUser()
+        public void ResetUserModel()
         {
             Token = "";
             Id = "";
@@ -23,6 +24,7 @@ namespace RMWindowsUI.Library.Models
             LastName = "";
             EmailAddress = "";
             CreatedDate = DateTime.MinValue;
+            
         }
     }
 }

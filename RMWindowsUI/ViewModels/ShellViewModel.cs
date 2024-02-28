@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using RMWindowsUI.EventModels;
+using RMWindowsUI.Library.Api;
 using RMWindowsUI.Library.Models;
 
 namespace RMWindowsUI.ViewModels
@@ -17,15 +18,17 @@ namespace RMWindowsUI.ViewModels
         private IEventAggregator _events;
         private SalesViewModel _salesVM;
         private ILoggedInUserModel _user;
+        private IAPIHelper _apiHelper;
 
         // dont need to save loginVM "state"
-        public ShellViewModel(IEventAggregator events, SalesViewModel salesVM, ILoggedInUserModel user)
+        public ShellViewModel(IEventAggregator events, SalesViewModel salesVM, ILoggedInUserModel user, IAPIHelper apiHelper)
         {
             // constructor injection to pass in an instance loginVM and store it in _loginVM
             
             _events = events;
             _salesVM = salesVM;
             _user = user;
+            _apiHelper = apiHelper;
 
             _events.SubscribeOnPublishedThread(this);
 
@@ -54,8 +57,9 @@ namespace RMWindowsUI.ViewModels
         }
 
         public void LogOut()
-        {
-            _user.LogOffUser();
+        {       
+            _user.ResetUserModel();
+            _apiHelper.LogOffUser();
             ActivateItemAsync(IoC.Get<LoginViewModel>());
             NotifyOfPropertyChange(() => IsLoggedIn);
         }
