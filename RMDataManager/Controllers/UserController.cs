@@ -25,7 +25,7 @@ namespace RMDataManager.Controllers
 
         [Authorize (Roles = "Admin")]
         [HttpGet]
-        [Route("Admin/GetAllUsers")]
+        [Route("api/User/Admin/GetAllUsers")]
         public List<ApplicationUserModel> GetAllUsers()
         {
             List<ApplicationUserModel> output = new List<ApplicationUserModel>();

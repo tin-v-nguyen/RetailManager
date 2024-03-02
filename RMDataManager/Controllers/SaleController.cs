@@ -25,7 +25,7 @@ namespace RMDataManager.Controllers
 
         // use custom url api/getsalesreport, since were not just getting a sale
         [Authorize(Roles = "Admin,Manager")]
-        [Route("GetSalesReport")]
+        [Route("api/Sale/GetSalesReport")]
         public List<SaleReportModel> GetSalesReport()
         {
             /*

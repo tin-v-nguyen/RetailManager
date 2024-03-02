@@ -45,6 +45,7 @@ namespace RMWindowsUI
             {
                 cfg.CreateMap<ProductModel, ProductDisplayModel>();
                 cfg.CreateMap<CartItemModel, CartItemDisplayModel>();
+                cfg.CreateMap<UserModel, UserDisplayModel>();
             });
 
             var output = AMConfig.CreateMapper();
@@ -59,6 +60,7 @@ namespace RMWindowsUI
             // create singleton for _container
             _container.Instance(_container)
                 .PerRequest<IProductEndpoint, ProductEndpoint>()
+                .PerRequest<IUserEndpoint, UserEndpoint>()
                 .PerRequest<ISaleEndpoint, SaleEndpoint>();
             
 
