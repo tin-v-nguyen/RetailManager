@@ -57,5 +57,48 @@ namespace RMDataManager.Controllers
             return output;
             
         }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        [Route("api/User/Admin/GetAllRoles")]
+        public Dictionary<string, string> GetAllRoles()
+        
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var roles = context.Roles.ToDictionary(x => x.Id, x => x.Name);
+
+                return roles;
+            }
+                
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [Route("api/User/Admin/AssignRole")]
+        public void AssignRole(UserRolePairModel pairing)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var userStore = new UserStore<ApplicationUser>(context);
+                var userManager = new UserManager<ApplicationUser>(userStore);
+
+                userManager.AddToRole(pairing.UserId, pairing.RoleName);
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [Route("api/User/Admin/UnassignRole")]
+        public void UnassignRole(UserRolePairModel pairing)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var userStore = new UserStore<ApplicationUser>(context);
+                var userManager = new UserManager<ApplicationUser>(userStore);
+
+                userManager.RemoveFromRole(pairing.UserId, pairing.RoleName);
+            }
+        }
     }
 }

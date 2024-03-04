@@ -34,16 +34,32 @@
         <!-- Column 0 -->
         <TextBlock Text="Users" Grid.Row="1" Grid.Column="0"/>
         <ListBox x:Name="Users" Grid.Row="2" Grid.Column="0"
-             MinHeight="200" MinWidth="150">
+             MinHeight="200" MinWidth="150" SelectedItem="{Binding SelectedUser}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{Binding Email}"></TextBlock>
-                        <TextBlock Text="{Binding RoleList}" FontSize="18"></TextBlock>
+                        <TextBlock Text="{Binding RoleDisplayList}" FontSize="18"></TextBlock>
                     </StackPanel>
-
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        
+        <!-- Column 1 -->
+        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2"
+                    Margin="20 0 0 0">
+            <TextBlock x:Name="SelectedUserName" Margin="0 0 0 10"/>
+            <TextBlock Text="Current Roles"/>
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+                <ListBox x:Name="SelectedUserRoles" SelectedItem="{Binding SelectedRoleToUnassign}"></ListBox>
+                <Button x:Name="UnassignSelectedRole" Content="Unassign" Margin="5 0 0 0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <ComboBox x:Name="AvailableRoles" SelectedItem="{Binding SelectedRoleToAssign}"/>
+                <Button x:Name="AssignSelectedRole" Content="Assign" Margin="5 0 0 0"/>
+            </StackPanel>
+
+
+        </StackPanel>
     </Grid>
 </UserControl>
