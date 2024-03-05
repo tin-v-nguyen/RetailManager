@@ -123,7 +123,6 @@ namespace RMWindowsUI.ViewModels
             }
 		}
 
-        private string _subTotal;
         public string SubTotal
         {
             // replace with calculation

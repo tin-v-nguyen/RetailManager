@@ -180,6 +180,7 @@ namespace RMWindowsUI.ViewModels
         }
 
         // TODO BUG When a cashier/admin logs into the sales page, and then remove cashier role, going back to the sales page you can still see the products
+        // When removing admin role while on the user management page, still have access
         // When a role is changed, force refresh the UI?
         public async void UnassignSelectedRole()
         {
