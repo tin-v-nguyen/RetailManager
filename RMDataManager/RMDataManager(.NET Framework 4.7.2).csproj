@@ -436,8 +436,8 @@
     <Content Include="Scripts\jquery-3.7.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TRMDataManager.Library\RMDataManager.Library.csproj">
-      <Project>{AF882D05-A7F8-442E-BFCC-66962D015576}</Project>
+    <ProjectReference Include="..\RMDataManager.Library\RMDataManager.Library.csproj">
+      <Project>{39DF6174-58AC-47A4-A6D7-D34C23953F66}</Project>
       <Name>RMDataManager.Library</Name>
     </ProjectReference>
   </ItemGroup>
