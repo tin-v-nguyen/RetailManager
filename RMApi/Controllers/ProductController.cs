@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using TRMDataManager.Library.DataAccess;
-using TRMDataManager.Library.Models;
+using RMDataManager.Library.DataAccess;
+using RMDataManager.Library.Models;
 
 namespace RMApi.Controllers
 {

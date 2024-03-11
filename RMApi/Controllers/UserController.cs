@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using RMApi.Data;
 using RMApi.Models;
 using System.Security.Claims;
-using TRMDataManager.Library.DataAccess;
-using TRMDataManager.Library.Models;
+using RMDataManager.Library.DataAccess;
+using RMDataManager.Library.Models;
 
 namespace RMApi.Controllers
 {

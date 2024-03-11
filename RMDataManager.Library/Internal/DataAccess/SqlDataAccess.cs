@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TRMDataManager.Library.Internal.DataAccess
+namespace RMDataManager.Library.Internal.DataAccess
 {
     // internal SqlDataAccess cant be seen or used outside of the Library
     internal class SqlDataAccess : IDisposable

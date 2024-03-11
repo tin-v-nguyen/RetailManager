@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TRMDataManager.Library
+namespace RMDataManager.Library
 {
     public class ConfigHelper
     {
