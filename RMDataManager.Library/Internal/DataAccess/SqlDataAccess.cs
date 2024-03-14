@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -13,10 +14,16 @@ namespace RMDataManager.Library.Internal.DataAccess
     // internal SqlDataAccess cant be seen or used outside of the Library
     internal class SqlDataAccess : IDisposable
     {
+        public SqlDataAccess(IConfiguration config) 
+        {
+            this.config = config;
+        }
         // we will run this dll as an executable through RMDataManager, so it will use it's Web.config
         public string GetConnectionString(string name)
         {
-            return ConfigurationManager.ConnectionStrings[name].ConnectionString;
+            return config.GetConnectionString(name);
+            //return @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=RMDatabase;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            //return ConfigurationManager.ConnectionStrings[name].ConnectionString;
         }
 
         public List<T> LoadData<T, U>(string storedProcedure, U parameters, string connectionStringName)
@@ -46,6 +53,8 @@ namespace RMDataManager.Library.Internal.DataAccess
         private IDbConnection _connection;
         private IDbTransaction _transaction;
         private bool isClosed = false;
+        private readonly IConfiguration config;
+
         // open connection/start transaction method
         public void StartTransaction(string connectionStringName)
         {

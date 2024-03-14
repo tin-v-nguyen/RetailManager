@@ -23,6 +23,7 @@ namespace RMApi.Controllers
             return View();
         }
 
+        //#pragma warning disable CS1998
         public async Task<IActionResult> Privacy()
         {
             //string[] roles = { "Admin", "Manager", "Cashier" };
