@@ -21,6 +21,7 @@ namespace RMApi.Controllers
         }
         // Post name has automatic routing, if post call is made to /api/sale it uses this
         [Authorize(Roles = "Cashier")]
+        [HttpPost]
         public void Post(SaleModel sale)
         {
             SaleData data = new SaleData(config);
@@ -30,7 +31,8 @@ namespace RMApi.Controllers
 
         // use custom url api/getsalesreport, since were not just getting a sale
         [Authorize(Roles = "Admin,Manager")]
-        [Route("api/Sale/GetSalesReport")]
+        [Route("GetSalesReport")]
+        [HttpGet]
         public List<SaleReportModel> GetSalesReport()
         {
             /*
