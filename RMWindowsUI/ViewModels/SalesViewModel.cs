@@ -125,7 +125,6 @@ namespace RMWindowsUI.ViewModels
 
         public string SubTotal
         {
-            // replace with calculation
             get 
             {
                 return CalculateSubTotal().ToString("C");
@@ -153,13 +152,6 @@ namespace RMWindowsUI.ViewModels
                 .Where(x => x.Product.IsTaxable)
                 .Sum(x => x.Product.RetailPrice * x.QuantityInCart * taxRate);
 
-            //foreach (var item in Cart)
-            //{
-            //    if (item.Product.IsTaxable)
-            //    {
-            //        taxAmount += (item.Product.RetailPrice * item.QuantityInCart * taxRate);
-            //    }
-            //}
             return taxAmount;
         }
 
