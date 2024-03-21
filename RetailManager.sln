@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RMDataManager(.NET Framework 4.7.2)", "RMDataManager\RMDataManager(.NET Framework 4.7.2).csproj", "{83DB4358-803E-4368-85CD-9DE8C69BC4CA}"
-EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "RMDatabase", "RMDatabase\RMDatabase.sqlproj", "{7BB53311-32D6-4DC5-A3C1-959E8867512E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RMWindowsUI", "RMWindowsUI\RMWindowsUI.csproj", "{11426DAE-CF47-4FCA-84ED-EFB68DA92108}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RMWindowsUI", "RMWindowsUI\RMWindowsUI.csproj", "{11426DAE-CF47-4FCA-84ED-EFB68DA92108}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RMWindowsUI.Library", "RMWindowsUI.Library\RMWindowsUI.Library.csproj", "{10CC32F6-29F4-4AD4-AB64-5B10208DA809}"
 EndProject
@@ -27,10 +25,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{83DB4358-803E-4368-85CD-9DE8C69BC4CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{83DB4358-803E-4368-85CD-9DE8C69BC4CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{83DB4358-803E-4368-85CD-9DE8C69BC4CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{83DB4358-803E-4368-85CD-9DE8C69BC4CA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7BB53311-32D6-4DC5-A3C1-959E8867512E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7BB53311-32D6-4DC5-A3C1-959E8867512E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BB53311-32D6-4DC5-A3C1-959E8867512E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
@@ -58,7 +52,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{83DB4358-803E-4368-85CD-9DE8C69BC4CA} = {D62AFCD5-8424-4D6D-8D75-84EEA723CFB9}
 		{7BB53311-32D6-4DC5-A3C1-959E8867512E} = {50905FFA-E596-41E5-BE6B-1A4DF3C47712}
 		{11426DAE-CF47-4FCA-84ED-EFB68DA92108} = {FF9A5BF1-7495-4373-8AAE-B0AC9717F972}
 		{10CC32F6-29F4-4AD4-AB64-5B10208DA809} = {FF9A5BF1-7495-4373-8AAE-B0AC9717F972}

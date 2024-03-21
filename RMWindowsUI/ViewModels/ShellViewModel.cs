@@ -21,12 +21,11 @@ namespace RMWindowsUI.ViewModels
         private IAPIHelper _apiHelper;
 
         // dont need to save loginVM "state"
-        public ShellViewModel(IEventAggregator events, SalesViewModel salesVM, ILoggedInUserModel user, IAPIHelper apiHelper)
+        public ShellViewModel(IEventAggregator events, ILoggedInUserModel user, IAPIHelper apiHelper)
         {
             // constructor injection to pass in an instance loginVM and store it in _loginVM
             
             _events = events;
-            _salesVM = salesVM;
             _user = user;
             _apiHelper = apiHelper;
 
@@ -71,7 +70,7 @@ namespace RMWindowsUI.ViewModels
 
         public async Task HandleAsync(LogOnEventModel message, CancellationToken cancellationToken)
         {
-            await ActivateItemAsync(_salesVM);
+            await ActivateItemAsync(IoC.Get<SalesViewModel>());
             NotifyOfPropertyChange(() => IsLoggedIn);
         }
     }
