@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Dynamic;
 using System.Linq;
 using System.Text;
@@ -14,18 +15,20 @@ namespace RMDataManager.Library.DataAccess
     {
         private readonly IProductData productData;
         private readonly ISqlDataAccess sqlDataAccess;
+        private readonly IConfigHelper configHelper;
 
-        public SaleData(IProductData productData, ISqlDataAccess sqlDataAccess)
+        public SaleData(IProductData productData, ISqlDataAccess sqlDataAccess, IConfigHelper configHelper)
         {
             this.productData = productData;
             this.sqlDataAccess = sqlDataAccess;
+            this.configHelper = configHelper;
         }
         public void SaveSale(SaleModel saleInfo, string cashierId)
         {
             // TODO: Make this solid/dry/better
             // start filling in models we will save to the db
             List<SaleDetailDBModel> details = new List<SaleDetailDBModel>();
-            var taxRate = ConfigHelper.GetTaxRate() / 100;
+            var taxRate = configHelper.GetTaxRate() / 100;
 
             foreach (var item in saleInfo.SaleDetails)
             {

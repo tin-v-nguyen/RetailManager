@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -7,12 +8,18 @@ using System.Threading.Tasks;
 
 namespace RMDataManager.Library
 {
-    public class ConfigHelper
+    public class ConfigHelper : IConfigHelper
     {
-        // TODO: Move this from config to the API
-        public static decimal GetTaxRate()
+        private readonly IConfiguration config;
+        public ConfigHelper(IConfiguration config)
         {
-            string rateText = ConfigurationManager.AppSettings["taxRate"];
+            this.config = config;
+        }
+
+        // TODO: Move this from config to the API
+        public decimal GetTaxRate()
+        {
+            string rateText = config["TaxRate"];
 
             bool IsValidTaxRate = Decimal.TryParse(rateText, out decimal output);
 
