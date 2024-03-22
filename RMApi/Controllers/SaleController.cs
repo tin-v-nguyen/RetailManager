@@ -13,20 +13,19 @@ namespace RMApi.Controllers
     [Authorize]
     public class SaleController : ControllerBase
     {
-        private readonly IConfiguration config;
+        private readonly ISaleData saleData;
 
-        public SaleController(IConfiguration config)
+        public SaleController(ISaleData saleData)
         {
-            this.config = config;
+            this.saleData = saleData;
         }
         // Post name has automatic routing, if post call is made to /api/sale it uses this
         [Authorize(Roles = "Cashier")]
         [HttpPost]
         public void Post(SaleModel sale)
         {
-            SaleData data = new SaleData(config);
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "NullUserId";
-            data.SaveSale(sale, userId);
+            saleData.SaveSale(sale, userId);
         }
 
         // use custom url api/getsalesreport, since were not just getting a sale
@@ -35,17 +34,7 @@ namespace RMApi.Controllers
         [HttpGet]
         public List<SaleReportModel> GetSalesReport()
         {
-            /*
-            if (RequestContext.Principal.IsInRole("Admin"))
-            {
-                // do admin stuff
-            } else if (RequestContext.Principal.IsInRole("Manager"))
-            {
-                // do manager stuff
-            }
-            */
-            SaleData data = new SaleData(config);
-            return data.GetSaleReport();
+            return saleData.GetSaleReport();
         }
     }
 }

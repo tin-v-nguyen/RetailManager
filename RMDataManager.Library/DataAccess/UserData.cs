@@ -9,24 +9,23 @@ using RMDataManager.Library.Models;
 
 namespace RMDataManager.Library.DataAccess
 {
-    public class UserData
+    public class UserData : IUserData
     {
-        private readonly IConfiguration config;
+        private readonly ISqlDataAccess sqlDataAccess;
 
-        public UserData(IConfiguration config)
+        public UserData(ISqlDataAccess sqlDataAccess)
         {
-            this.config = config;
+            this.sqlDataAccess = sqlDataAccess;
         }
         public List<UserModel> GetUserByID(string Id)
         {
-            SqlDataAccess sql = new SqlDataAccess(config);
 
             // anonymous object, no named typed
             var p = new { Id = Id };
 
             // RMDatabase is defined in webconfig of api
             // dynamic type might not work across assemblies
-            var output = sql.LoadData<UserModel, dynamic>("dbo.spUserLookup", p, "RMDatabase");
+            var output = sqlDataAccess.LoadData<UserModel, dynamic>("dbo.spUserLookup", p, "RMDatabase");
             return output;
         }
     }

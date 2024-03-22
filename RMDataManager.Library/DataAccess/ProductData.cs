@@ -9,28 +9,24 @@ using RMDataManager.Library.Models;
 
 namespace RMDataManager.Library.DataAccess
 {
-    public class ProductData
+    public class ProductData : IProductData
     {
-        private readonly IConfiguration config;
+        private readonly ISqlDataAccess sqlDataAccess;
 
-        public ProductData(IConfiguration config)
+        public ProductData(ISqlDataAccess sqlDataAccess)
         {
-            this.config = config;
+            this.sqlDataAccess = sqlDataAccess;
         }
         public List<ProductModel> GetProducts()
         {
-            SqlDataAccess sql = new SqlDataAccess(config);
-                         
-            var output = sql.LoadData<ProductModel, dynamic>("dbo.spProduct_GetAll", new { }, "RMDatabase");
-           
+            var output = sqlDataAccess.LoadData<ProductModel, dynamic>("dbo.spProduct_GetAll", new { }, "RMDatabase");
+
             return output;
         }
 
         public ProductModel GetProductById(int productId)
         {
-            SqlDataAccess sql = new SqlDataAccess(config);
-
-            var output = sql.LoadData<ProductModel, dynamic>("dbo.spProduct_GetById", new { Id = productId }, "RMDatabase").FirstOrDefault();
+            var output = sqlDataAccess.LoadData<ProductModel, dynamic>("dbo.spProduct_GetById", new { Id = productId }, "RMDatabase").FirstOrDefault();
 
             return output;
         }

@@ -9,26 +9,25 @@ using RMDataManager.Library.Models;
 
 namespace RMDataManager.Library.DataAccess
 {
-    public class InventoryData
+    public class InventoryData : IInventoryData
     {
         private readonly IConfiguration config;
+        private readonly ISqlDataAccess sqlDataAccess;
 
-        public InventoryData(IConfiguration config)
+        public InventoryData(IConfiguration config, ISqlDataAccess sqlDataAccess)
         {
             this.config = config;
+            this.sqlDataAccess = sqlDataAccess;
         }
         public List<InventoryModel> GetInventory()
         {
-            SqlDataAccess sql = new SqlDataAccess(config);
-
-            var output = sql.LoadData<InventoryModel, dynamic>("dbo.spInventory_GetAll", new { }, "RMDatabase");
+            var output = sqlDataAccess.LoadData<InventoryModel, dynamic>("dbo.spInventory_GetAll", new { }, "RMDatabase");
             return output;
         }
-        
+
         public void SaveInventoryRecord(InventoryModel record)
         {
-            SqlDataAccess sql = new SqlDataAccess(config);
-            sql.SaveData<InventoryModel>("dbo.spInventory_Insert", record, "RMDatabase");
+            sqlDataAccess.SaveData<InventoryModel>("dbo.spInventory_Insert", record, "RMDatabase");
         }
     }
 }

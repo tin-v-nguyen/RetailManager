@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 namespace RMDataManager.Library.Internal.DataAccess
 {
     // internal SqlDataAccess cant be seen or used outside of the Library
-    internal class SqlDataAccess : IDisposable
+    public class SqlDataAccess : IDisposable, ISqlDataAccess
     {
-        public SqlDataAccess(IConfiguration config) 
+        public SqlDataAccess(IConfiguration config)
         {
             this.config = config;
         }
@@ -31,7 +31,7 @@ namespace RMDataManager.Library.Internal.DataAccess
             string connectionString = GetConnectionString(connectionStringName);
             using (IDbConnection cnn = new SqlConnection(connectionString))
             {
-                List<T> rows = cnn.Query<T>(storedProcedure, parameters, 
+                List<T> rows = cnn.Query<T>(storedProcedure, parameters,
                     commandType: CommandType.StoredProcedure).ToList();
 
                 return rows;
@@ -67,17 +67,17 @@ namespace RMDataManager.Library.Internal.DataAccess
         }
 
         public void SaveDataInTransaction<T>(string storedProcedure, T parameters)
-        {                        
+        {
             _connection.Execute(storedProcedure, parameters,
                 commandType: CommandType.StoredProcedure, transaction: _transaction);
         }
 
         public List<T> LoadDataInTransaction<T, U>(string storedProcedure, U parameters)
-        {                       
+        {
             List<T> rows = _connection.Query<T>(storedProcedure, parameters,
                 commandType: CommandType.StoredProcedure, transaction: _transaction).ToList();
 
-            return rows;            
+            return rows;
         }
 
         // close connection/stop transaction method
@@ -112,9 +112,5 @@ namespace RMDataManager.Library.Internal.DataAccess
             _transaction = null;
             _connection = null;
         }
-        // load using transaction
-        // save using transaction
-        
-        // dispose
     }
 }
