@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Protocols.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -25,7 +26,7 @@ namespace RMDataManager.Library
 
             if (IsValidTaxRate == false)
             {
-                throw new ConfigurationErrorsException("Tax rate is not set up properly");
+                throw new InvalidConfigurationException("Tax rate is not set up properly");
             }
             return output;
         }
