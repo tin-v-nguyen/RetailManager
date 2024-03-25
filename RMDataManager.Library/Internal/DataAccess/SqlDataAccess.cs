@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -14,9 +15,10 @@ namespace RMDataManager.Library.Internal.DataAccess
     // internal SqlDataAccess cant be seen or used outside of the Library
     public class SqlDataAccess : IDisposable, ISqlDataAccess
     {
-        public SqlDataAccess(IConfiguration config)
+        public SqlDataAccess(IConfiguration config, ILogger<SqlDataAccess> logger)
         {
             this.config = config;
+            this.logger = logger;
         }
         // we will run this dll as an executable through RMDataManager, so it will use it's Web.config
         public string GetConnectionString(string name)
@@ -54,6 +56,7 @@ namespace RMDataManager.Library.Internal.DataAccess
         private IDbTransaction _transaction;
         private bool isClosed = false;
         private readonly IConfiguration config;
+        private readonly ILogger<SqlDataAccess> logger;
 
         // open connection/start transaction method
         public void StartTransaction(string connectionStringName)
@@ -103,9 +106,10 @@ namespace RMDataManager.Library.Internal.DataAccess
                 {
                     CommitTransaction();
                 }
-                catch
+                catch (Exception ex)
                 {
-                    // TODO - Log this issue
+                    logger.LogError(ex, "Commit transaction failed in the dispose method.");
+
                 }
             }
 
