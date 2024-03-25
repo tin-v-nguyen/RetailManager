@@ -44,7 +44,7 @@ builder.Services.AddAuthentication(options =>
         {
             ValidateIssuerSigningKey = true,
             // key needs to be long enough or token will not generate
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ThangChoBinBiNgu, so this is my secret key")),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetValue<string>("Secrets:SecurityKey"))),
             ValidateIssuer = false,
             ValidateAudience = false,
             ValidateLifetime = true,
