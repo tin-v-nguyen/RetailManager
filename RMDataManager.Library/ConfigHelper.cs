@@ -17,7 +17,7 @@ namespace RMDataManager.Library
             this.config = config;
         }
 
-        // TODO: Move this from config to the API
+        // TODO: Move this from config to the API, using database for tax rates
         public decimal GetTaxRate()
         {
             string rateText = config["TaxRate"];

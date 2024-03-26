@@ -285,7 +285,6 @@ namespace RMWindowsUI.ViewModels
         private async Task ResetSalesViewModel()
         {
             Cart = new BindingList<CartItemDisplayModel>();
-            // TODO - Add clearing selectedcartitem if doesnt do it itself
 
             await LoadProducts();
 
